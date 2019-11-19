@@ -38,9 +38,10 @@ class RPCRequestHandler(http.server.BaseHTTPRequestHandler):
     def post_digest(self):
         content_length = int(self.headers['Content-Length'])
         print("Post_digest")
-
-#        for x in self.headers:
-#            print(x)
+        print(content_length)
+        for x in self.headers:
+            print(x)
+        print("Post_digest end....")
 
         if content_length > self.MAX_DIGEST_LENGTH:
             self.send_response(400)
