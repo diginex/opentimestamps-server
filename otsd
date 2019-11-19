@@ -130,7 +130,7 @@ calendar.stamper = stamper
 print("Starting server....")
 print("RPC Address: " + args.rpc_address)
 print("---------------")
-print("RPC Port: " + args.rpc_port)
+# print("RPC Port: " + args.rpc_port)
 print("---------------")
 
 server = otsserver.rpc.StampServer((args.rpc_address, "18443"), aggregator, calendar)
