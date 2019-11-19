@@ -37,9 +37,10 @@ class RPCRequestHandler(http.server.BaseHTTPRequestHandler):
 
     def post_digest(self):
         content_length = int(self.headers['Content-Length'])
+        print("Post_digest")
 
-        for x in self.headers:
-            print(x)
+#        for x in self.headers:
+#            print(x)
 
         if content_length > self.MAX_DIGEST_LENGTH:
             self.send_response(400)
@@ -60,6 +61,7 @@ class RPCRequestHandler(http.server.BaseHTTPRequestHandler):
         timestamp.serialize(ctx)
 
     def get_tip(self):
+        print("Get_tip")
         try:
             msg = self.calendar.stamper.unconfirmed_txs[-1].tip_timestamp.msg
         except:
@@ -80,6 +82,7 @@ class RPCRequestHandler(http.server.BaseHTTPRequestHandler):
             self.end_headers()
 
     def get_backup(self):
+        print("Get_backup")
         chunk = self.path[len('/experimental/backup/'):]
         try:
             chunk = int(chunk)
@@ -98,6 +101,7 @@ class RPCRequestHandler(http.server.BaseHTTPRequestHandler):
         self.wfile.write(result)
 
     def get_timestamp(self):
+        print("Get_timestamp")
         commitment = self.path[len('/timestamp/'):]
 
         try:
@@ -159,6 +163,7 @@ class RPCRequestHandler(http.server.BaseHTTPRequestHandler):
         timestamp.serialize(StreamSerializationContext(self.wfile))
 
     def do_POST(self):
+        print("do_POST")
         if self.path == '/digest':
             self.post_digest()
 
@@ -173,6 +178,7 @@ class RPCRequestHandler(http.server.BaseHTTPRequestHandler):
             self.wfile.write(b'not found')
 
     def do_GET(self):
+        print("do_GET")
         if self.path == '/':
             self.send_response(200)
             self.send_header('Content-type', 'text/html')
