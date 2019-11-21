@@ -38,10 +38,9 @@ class RPCRequestHandler(http.server.BaseHTTPRequestHandler):
     def post_digest(self):
         content_length = int(self.headers['Content-Length'])
         print("Post_digest")
-        print(content_length)
+        print("Headers:")
         for x in self.headers:
-            print(x)
-        print("Post_digest end....")
+            print(x + ": " + self.headers[x])
 
         if content_length > self.MAX_DIGEST_LENGTH:
             self.send_response(400)
@@ -51,6 +50,12 @@ class RPCRequestHandler(http.server.BaseHTTPRequestHandler):
             return
 
         digest = self.rfile.read(content_length)
+        
+        print("Digest in byte:")
+        print(digest)
+        print("Digest decoded to string:")
+        print(digest.decode("utf-8"))
+        print("Post_digest end....")
 
         timestamp = self.aggregator.submit(digest)
 
