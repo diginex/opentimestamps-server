@@ -53,8 +53,8 @@ class RPCRequestHandler(http.server.BaseHTTPRequestHandler):
         
         print("Digest in byte:")
         print(digest)
-        print("Digest decoded to string:")
-        print(digest.decode("utf-8"))
+#        print("Digest decoded to string:")
+#        print(digest.decode("utf-8"))
         print("Post_digest end....")
 
         timestamp = self.aggregator.submit(digest)
