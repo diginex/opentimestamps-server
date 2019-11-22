@@ -17,6 +17,7 @@ import threading
 import time
 import pystache
 import datetime 
+import requests 
 from functools import reduce
 
 import bitcoin.core
@@ -57,14 +58,20 @@ class RPCRequestHandler(http.server.BaseHTTPRequestHandler):
         print(digest.hex())
         print("Post_digest end....")
 
-        timestamp = self.aggregator.submit(digest)
+        data = { 'digest': digest.hex(), 'signature':  self.headers['x-signature']}   
+        r = requests.post(url = os.environ['VALIDATOR_ENDPOINT'], data = data)
 
-        self.send_response(200)
-        self.send_header('Content-type', 'application/octet-stream')
-        self.end_headers()
+        if r.status_code == 200:
+            timestamp = self.aggregator.submit(digest)
 
-        ctx = StreamSerializationContext(self.wfile)
-        timestamp.serialize(ctx)
+            self.send_response(200)
+            self.send_header('Content-type', 'application/octet-stream')
+            self.end_headers()
+
+            ctx = StreamSerializationContext(self.wfile)
+            timestamp.serialize(ctx)
+        else:
+            self.send_response(403)
 
     def get_tip(self):
         print("Get_tip")
